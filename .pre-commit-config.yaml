@@ -1,0 +1,20 @@
+# NOTE: If you're adding a new hook, consider adding its underlying tool and its
+# dependencies to Poetry's dev dependencies.
+repos:
+- repo: https://github.com/psf/black
+  rev: "23.9.1"
+  hooks:
+    - id: black
+      additional_dependencies: ['click==8.0.4']
+- repo: https://github.com/PyCQA/flake8
+  rev: "6.1.0"
+  hooks:
+    - id: flake8
+      additional_dependencies:
+        - "flake8-module-name==0.2.0"
+        - "pep8-naming==0.13.2"
+- repo: https://github.com/pycqa/isort
+  rev: "5.12.0"
+  hooks:
+    - id: isort
+      args: ["--filter-files"]

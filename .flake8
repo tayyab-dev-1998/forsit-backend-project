@@ -1,0 +1,44 @@
+[flake8]
+max-complexity = 18
+
+ignore =
+  # Ignore formatting checks (taken from https://stackoverflow.com/q/59241007)
+  # We use black for formatting.
+  E101,E111,E114,E115,E116,E117,E12,E13,E2,E3,E401,E5,E70,W1,W2,W3,W5,
+  # Ignore: "test for membership should be 'not in'"
+  # Why: 'not x in y' is equivalent to 'not in' at the bytecode level in CPython
+  # and sometimes it's more readable. If black doesn't have an opinion here,
+  # we don't either: https://github.com/psf/black/issues/212
+  E713,
+  # Ignore "error suffix in exception names" from pep8-naming
+  # Why: PEP8's guideline is to suffix with Error _when_ it's an error,
+  # which is too fuzzy for a linter to reliably enforce.
+  # https://peps.python.org/pep-0008/#exception-names
+  N818,
+
+# pep8-naming configuration
+classmethod-decorators =
+  # Default decorator name
+  classmethod,
+  # pydantic.validator
+  validator,
+
+# Ignore pre-existing violations; this is a to-do list.
+# The long-term goal is to slowly chip away at this list, enabling
+# these rules one by one.
+#
+# Violation codes referenced below, in order of frequency:
+# F401 - '***' imported but unused
+# F841 - local variable '***' is assigned to but never used
+# E711 - comparison to None should be 'if cond is None:'
+# N806 - variable '***' in function should be lowercase
+# F405 - '***' may be undefined, or defined from star imports
+# F541 - f-string is missing placeholders
+# E711 comparison to None should be 'if cond is None:'
+# E712 - comparison to False should be 'if cond is False:' or 'if not cond:'
+# E712 - comparison to True should be 'if cond is True:' or 'if cond:'
+# DST01 - test file must be in a 'tests' directory
+# DST02 - test file name must match the name of the module it tests, e.g. test_foo.py for foo.py
+# F403 - unable to detect undefined names
+per-file-ignores =
+  
