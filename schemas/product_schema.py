@@ -11,12 +11,19 @@ class ProductBase(BaseModel):
     product_sku: str
     quantity: int
     category_id: int
+    price: int
     low_quantity_threshold: Optional[int] = DEFAULT_LOW_QUANTITY_THRESHOLD
 
     @validator("quantity")
     def quantity_must_be_positive(cls, v):
         if v < 0:
             raise ValueError("Quantity cannot be negative.")
+        return v
+
+    @validator("price")
+    def price_must_be_greater_then_zero(cls, v):
+        if v <= 0:
+            raise ValueError("Price should be greater than 0.")
         return v
 
 

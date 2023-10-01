@@ -9,6 +9,7 @@ class Product(BaseModel):
     name = Column(String, nullable=False)
     product_sku = Column(String, unique=True, nullable=False)
     quantity = Column(Integer, nullable=False)
+    price = Column(Integer, nullable=False)
     low_quantity_threshold = Column(
         Integer, default=DEFAULT_LOW_QUANTITY_THRESHOLD, nullable=False
     )
