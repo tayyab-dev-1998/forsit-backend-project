@@ -6,10 +6,9 @@ from jose import jwt
 from sqlalchemy.orm import Session
 
 from core.config import settings
+from core.constants import JWT_ALGORITHM
 from models.user_model import User
 from services.common_services import verify_password
-
-ALGORITHM = "HS256"
 
 
 def create_access_token(subject: Union[str, Any]) -> str:
@@ -18,7 +17,7 @@ def create_access_token(subject: Union[str, Any]) -> str:
     )
 
     to_encode = {"exp": expires_delta, "sub": str(subject)}
-    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, JWT_ALGORITHM)
     return encoded_jwt
 
 
