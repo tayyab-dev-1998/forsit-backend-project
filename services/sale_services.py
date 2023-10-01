@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from models.sale_model import Sale
-from schemas.sale_schema import SaleCreate
+from schemas.sale_schema import SaleCreate, SaleFilter
 from services.product_services import get_product_by_id
 
 
@@ -39,3 +39,22 @@ def get_total_sales_for_category(
         .filter(Sale.sales_date <= end_date)
     )
     return total_sales.first()[0]
+
+
+def fetch_sale_entries(
+    db: Session,
+    filter_id: int,
+    start_date: date,
+    end_date: date,
+    filter_type: SaleFilter,
+):
+    query = (
+        db.query(Sale)
+        .filter(Sale.sales_date >= start_date)
+        .filter(Sale.sales_date <= end_date)
+    )
+    if filter_type == SaleFilter.product:
+        query.filter(Sale.product_id == filter_id)
+    else:
+        query.filter(Sale.product.has(category_id=filter_id))
+    return query.all()

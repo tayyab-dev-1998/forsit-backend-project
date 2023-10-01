@@ -1,4 +1,5 @@
 from datetime import date
+from enum import Enum
 
 from pydantic import BaseModel, validator
 
@@ -34,3 +35,9 @@ class SaleInDbBase(SaleBase):
 # Properties to return to client
 class Sale(SaleInDbBase):
     pass
+
+
+# Filter type for get api to get entity to perform filter on
+class SaleFilter(str, Enum):
+    category = "category"
+    product = "product"
