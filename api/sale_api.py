@@ -6,11 +6,12 @@ from sqlalchemy.orm import Session
 
 from core.dep import authenticate_request
 from db.session import get_db
-from schemas.sale_schema import Sale, SaleCreate, SaleFilter
+from schemas.sale_schema import Sale, SaleAggregationType, SaleCreate, SaleFilter
 from services.sale_services import (
     create_sale_entry,
     fetch_sale_entries,
     get_total_sales_for_category,
+    perform_sale_aggregation,
 )
 
 router = APIRouter()
@@ -51,3 +52,11 @@ def get_sales_entry(
     db: Session = Depends(get_db),
 ):
     return fetch_sale_entries(db, filter_id, start_date, end_date, filter_type)
+
+
+@router.get("/aggregated-results", dependencies=[Depends(authenticate_request)])
+def get_sales_aggregated_results(
+    aggregation_type: SaleAggregationType,
+    db: Session = Depends(get_db),
+):
+    return perform_sale_aggregation(db, aggregation_type)

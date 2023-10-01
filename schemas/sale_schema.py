@@ -41,3 +41,11 @@ class Sale(SaleInDbBase):
 class SaleFilter(str, Enum):
     category = "category"
     product = "product"
+
+
+# Aggregation type for revenue for sales
+class SaleAggregationType(str, Enum):
+    Annually = "year"
+    Monthly = "month"
+    Weekly = "week"
+    Daily = "day"

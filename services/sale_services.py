@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from models.sale_model import Sale
-from schemas.sale_schema import SaleCreate, SaleFilter
+from schemas.sale_schema import SaleAggregationType, SaleCreate, SaleFilter
 from services.product_services import get_product_by_id
 
 
@@ -58,3 +58,17 @@ def fetch_sale_entries(
     else:
         query.filter(Sale.product.has(category_id=filter_id))
     return query.all()
+
+
+def perform_sale_aggregation(
+    db: Session,
+    aggregation_type: SaleAggregationType,
+):
+    query = db.query(
+        func.date_trunc(aggregation_type.value, Sale.sales_date).label("sales_date"),
+        func.sum(Sale.total_bill).label("revenue"),
+    ).group_by("sales_date")
+    result = {}
+    for row in query.all():
+        result[row.sales_date] = row.revenue
+    return result
