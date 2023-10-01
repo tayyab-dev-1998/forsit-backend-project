@@ -6,11 +6,21 @@ from models.category_model import Category
 from schemas.category_schema import CategoryCreate
 
 
+def get_category_by_id(db: Session, id: int, raise_if_none=False):
+    object = db.query(Category).filter(Category.id == id).first()
+    if object is None and raise_if_none:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Category doesn't exists.",
+        )
+    return object
+
+
 def get_category_by_name(db: Session, name: str, raise_if_none=False):
     object = db.query(Category).filter(Category.name == name).first()
     if object is None and raise_if_none:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Category doesn't exists.",
         )
     return object

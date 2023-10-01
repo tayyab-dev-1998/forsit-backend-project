@@ -6,7 +6,7 @@ class CategoryBase(BaseModel):
     name: str
 
 
-# Properties to receive on item creation
+# Properties to receive on category creation
 class CategoryCreate(CategoryBase):
     pass
 

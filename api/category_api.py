@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from core.dep import authenticate_request
 from db.session import get_db
 from schemas.category_schema import Category, CategoryCreate
-from services.category_services import create_category, get_categories
+from services.category_services import (create_category, get_categories,
+                                        get_category_by_id)
 
 router = APIRouter()
 
@@ -34,3 +35,17 @@ def get_all(
     """
     categories = get_categories(db)
     return categories
+
+
+@router.get(
+    "/{id}", response_model=Category, dependencies=[Depends(authenticate_request)]
+)
+def get(
+    id: int,
+    db: Session = Depends(get_db),
+):
+    """
+    Get category by id.
+    """
+    category = get_category_by_id(db, id, raise_if_none=True)
+    return category
