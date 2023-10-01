@@ -43,4 +43,6 @@ classmethod-decorators =
 # DST02 - test file name must match the name of the module it tests, e.g. test_foo.py for foo.py
 # F403 - unable to detect undefined names
 per-file-ignores =
+  **/__init__.py:F401,F403
+  db/base.py:F401,F403
   
