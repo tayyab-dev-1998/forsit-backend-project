@@ -16,3 +16,5 @@ class Product(BaseModel):
 
     category_id = Column(Integer, ForeignKey("category.id"), nullable=False)
     category = relationship("Category", back_populates="products")
+
+    sales = relationship("Sale", back_populates="product")
